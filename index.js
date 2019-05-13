@@ -4,6 +4,7 @@
  */
 
 const MODULE_NAME = 'net.vorotnikov.transform'
+const Transformer = require('./transformer')
 
 async function prepare() {
     console.log(`${MODULE_NAME}.prepare() called`)
@@ -41,10 +42,14 @@ async function cleanup() {
     console.log(`${MODULE_NAME}.cleanup() called`)
 }
 
-async function _process(context) {
+async function _process(transformation, outputJson, context) {
     console.log(`${MODULE_NAME}.process() called`)
     const { topic, message, appId, gatewayId } = context
-    return message
+
+    const transformer = new Transformer(transformation, message)
+    const transformedMessage = transformer.getTransformedMessage()
+
+    return outputJson ? JSON.stringify(transformedMessage) : transformedMessage
 }
 
 // mandatory interface

@@ -22,7 +22,10 @@
     "cson": "^5.1.0",
     "json2json": "^0.2.8"
   },
-  "bundleDependencies": [],
+  "bundleDependencies": [
+    "cson",
+    "json2json"
+  ],
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^6.1.4",

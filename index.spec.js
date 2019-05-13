@@ -10,7 +10,36 @@ chai.use(sinonChai)
 describe('Transform', function() {
 
 	function generateMessage() {
-		return {}
+		return {
+			device: {
+				id: 'test-device',
+				index: 0,
+				name: 'Test Device',
+				description: 'Device Description'
+			},
+			time: {
+				unix: new Date().getTime(),
+				iso: new Date().toISOString(),
+			},
+			readings: {
+				temperature: { value: 10, unit: 'degree' },
+				humidity: { value: 40, unit: 'percent' },
+			}
+		}
+	}
+
+	const TRANSFORMATION = {
+		path: '.',
+		as: {
+			time: {
+				path: 'time',
+				value: 'iso'
+			},
+			device: {
+				path: 'device',
+				value: 'name'
+			},
+		}
 	}
 
 	const transform = require('./index')
@@ -40,8 +69,19 @@ describe('Transform', function() {
 			appId: 'abc', 
 			gatewayId: 'def',
 		}
-		let output = await transform.process(contextStub)
+		let output = await transform.process(TRANSFORMATION, false, contextStub)
 		output.should.be.an('object')
+	})
+
+	it('should process message and return JSON', async () => {
+		const contextStub = {
+			topic: 'transform',
+			message: JSON.stringify(generateMessage()),
+			appId: 'abc', 
+			gatewayId: 'def',
+		}
+		let output = await transform.process(TRANSFORMATION, true, contextStub)
+		output.should.be.a('string')
 	})
 
 })
