@@ -1,6 +1,12 @@
 # open-iot-transform
 Transformation plugin for Open IoT.
 
+# Arguments
+The arguments object defined in the integration step is passed as property
+of the `context` object. The plugin supports the following arguments:
+* `transformation` (Object|String) (required) - transformation template object (or CSON string)
+* `json` (Boolean) - output json
+
 # How to pack
 This package is bundled using the `npm pack` command that produces
 a tarball of the package. It is then converted to zip archive using
