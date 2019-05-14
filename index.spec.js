@@ -68,8 +68,12 @@ describe('Transform', function() {
 			message: generateMessage(),
 			appId: 'abc', 
 			gatewayId: 'def',
+			arguments: {
+				transformation: TRANSFORMATION,
+				json: false,
+			},
 		}
-		let output = await transform.process(TRANSFORMATION, false, contextStub)
+		let output = await transform.process(contextStub)
 		output.should.be.an('object')
 	})
 
@@ -79,8 +83,12 @@ describe('Transform', function() {
 			message: JSON.stringify(generateMessage()),
 			appId: 'abc', 
 			gatewayId: 'def',
+			arguments: {
+				transformation: TRANSFORMATION,
+				json: true,
+			},
 		}
-		let output = await transform.process(TRANSFORMATION, true, contextStub)
+		let output = await transform.process(contextStub)
 		output.should.be.a('string')
 	})
 
